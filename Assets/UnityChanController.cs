@@ -21,6 +21,9 @@ public class UnityChanController : MonoBehaviour
     //ジャンプの速度
     float jumpVelocity = 20;
 
+    // ゲームオーバになる位置
+    private float deadLine = -9;
+
     // Use this for initialization
     void Start()
     {       // アニメータのコンポーネントを取得する
@@ -28,7 +31,7 @@ public class UnityChanController : MonoBehaviour
         // Rigidbody2Dのコンポーネントを取得する
         this.rigid2D = GetComponent<Rigidbody2D>();
     }
-    
+
 
     // Update is called once per frame
     void Update()
@@ -41,20 +44,28 @@ public class UnityChanController : MonoBehaviour
         this.animator.SetBool("isGround", isGround);
 
         //着地状態でクリックされた場合
-        if(Input.GetMouseButtonDown (0) && isGround)
-    
-        //上方向の力をかける
-        this.rigid2D.velocity = new Vector2(0, this.jumpVelocity);
+        if (Input.GetMouseButtonDown(0) && isGround)
+
+            //上方向の力をかける
+            this.rigid2D.velocity = new Vector2(0, this.jumpVelocity);
 
         //クリックを辞めたら上方向への速度を原則する
         if (Input.GetMouseButton(0) == false)
         {
-            if(this.rigid2D.velocity.y > 0)
+            if (this.rigid2D.velocity.y > 0)
             {
                 this.rigid2D.velocity *= this.dump;
             }
         }
+
+        // デッドラインを超えた場合ゲームオーバにする
+        if (transform.position.x < this.deadLine)
+        {
+            // UIControllerのGameOver関数を呼び出して画面上に「GameOver」と表示する
+            GameObject.Find("Canvas").GetComponent<UIController>().GameOver();
+
+            // ユニティちゃんを破棄する
+            Destroy(gameObject);
+        }
     }
-
-
 }
