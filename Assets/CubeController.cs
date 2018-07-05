@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CubeController : MonoBehaviour {
+public class CubeController : MonoBehaviour
+{
     //キューブの移動速度
     private float speed = -0.2f;
 
     //消滅位置
-           private float deadLine = -10;
+    private float deadLine = -10;
 
-	// Use this for initialization
-	void Start () {
-          
-
-		
-	}
+    // Use this for initialization
+    void Start()
+    {
+    }
 
     // Update is called once per frame
     void Update()
@@ -29,5 +28,14 @@ public class CubeController : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
 }
-  
+
+
+
+
